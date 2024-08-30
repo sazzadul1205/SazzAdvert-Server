@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -44,6 +44,14 @@ async function run() {
     const AwardsComponentCollection = client
       .db("SazzVert")
       .collection("AwardsComponent");
+    const SuccessStoriesCollection = client
+      .db("SazzVert")
+      .collection("SuccessStories");
+    const BrandsCollection = client.db("SazzVert").collection("Brands");
+    const TestimonialSlidesCollection = client
+      .db("SazzVert")
+      .collection("TestimonialSlides");
+    const BlogsCollection = client.db("SazzVert").collection("Blogs");
 
     // APIs
     // Banner API
@@ -62,6 +70,16 @@ async function run() {
       }
 
       // Send the result as the response
+      res.send(result);
+    });
+    // Update Banners
+    app.put("/Banners/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BannersCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
       res.send(result);
     });
 
@@ -117,6 +135,29 @@ async function run() {
     // AwardsComponent API
     app.get("/AwardsComponent", async (req, res) => {
       const result = await AwardsComponentCollection.find().toArray();
+      res.send(result);
+    });
+
+    // SuccessStories API
+    app.get("/SuccessStories", async (req, res) => {
+      const result = await SuccessStoriesCollection.find().toArray();
+      res.send(result);
+    });
+
+    // Brands API
+    app.get("/Brands", async (req, res) => {
+      const result = await BrandsCollection.find().toArray();
+      res.send(result);
+    });
+
+    // TestimonialSlides API
+    app.get("/TestimonialSlides", async (req, res) => {
+      const result = await TestimonialSlidesCollection.find().toArray();
+      res.send(result);
+    });
+    // Blogs API
+    app.get("/Blogs", async (req, res) => {
+      const result = await BlogsCollection.find().toArray();
       res.send(result);
     });
 
