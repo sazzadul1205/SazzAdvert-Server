@@ -265,6 +265,29 @@ async function run() {
       const result = await SuccessStoriesCollection.find().toArray();
       res.send(result);
     });
+    // Update SuccessStories
+    app.put("/SuccessStories/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await SuccessStoriesCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new SuccessStories
+    app.post("/SuccessStories", async (req, res) => {
+      const request = req.body;
+      const result = await SuccessStoriesCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete SuccessStories
+    app.delete("/SuccessStories/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await SuccessStoriesCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Brands API
     app.get("/Brands", async (req, res) => {
