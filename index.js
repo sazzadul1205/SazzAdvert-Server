@@ -294,6 +294,29 @@ async function run() {
       const result = await BrandsCollection.find().toArray();
       res.send(result);
     });
+    // Update Brands
+    app.put("/Brands/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BrandsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new Brands
+    app.post("/Brands", async (req, res) => {
+      const request = req.body;
+      const result = await BrandsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete Brands
+    app.delete("/Brands/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await BrandsCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // TestimonialSlides API
     app.get("/TestimonialSlides", async (req, res) => {
