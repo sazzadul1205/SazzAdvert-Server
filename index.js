@@ -323,6 +323,30 @@ async function run() {
       const result = await TestimonialSlidesCollection.find().toArray();
       res.send(result);
     });
+    // Update TestimonialSlides
+    app.put("/TestimonialSlides/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await TestimonialSlidesCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new TestimonialSlides
+    app.post("/TestimonialSlides", async (req, res) => {
+      const request = req.body;
+      const result = await TestimonialSlidesCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete TestimonialSlides
+    app.delete("/TestimonialSlides/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await TestimonialSlidesCollection.deleteOne(query);
+      res.send(result);
+    });
+
     // Blogs API
     app.get("/Blogs", async (req, res) => {
       const result = await BlogsCollection.find().toArray();
