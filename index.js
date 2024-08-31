@@ -162,10 +162,43 @@ async function run() {
       const result = await ProjectAreaComponentCollection.find().toArray();
       res.send(result);
     });
+    // Update ProjectAreaComponent
+    app.put("/ProjectAreaComponent/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await ProjectAreaComponentCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
 
     // Capabilities API
     app.get("/Capabilities", async (req, res) => {
       const result = await CapabilitiesCollection.find().toArray();
+      res.send(result);
+    });
+    // Update Capabilities
+    app.put("/Capabilities/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await CapabilitiesCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new Capabilities
+    app.post("/Capabilities", async (req, res) => {
+      const request = req.body;
+      const result = await CapabilitiesCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete Capabilities
+    app.delete("/Capabilities/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await CapabilitiesCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -174,10 +207,56 @@ async function run() {
       const result = await OurProcessCollection.find().toArray();
       res.send(result);
     });
+    // Update OurProcess
+    app.put("/OurProcess/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await OurProcessCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new OurProcess
+    app.post("/OurProcess", async (req, res) => {
+      const request = req.body;
+      const result = await OurProcessCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete OurProcess
+    app.delete("/OurProcess/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await OurProcessCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // AwardsComponent API
     app.get("/AwardsComponent", async (req, res) => {
-      const result = await AwardsComponentCollection.find().toArray();
+      // Get the `Number` query parameter from the request
+      const { Number } = req.query;
+
+      let result;
+      if (Number) {
+        // If the Number query parameter exists, query AwardsComponent by the Number
+        const query = { Number: parseInt(Number) }; // Convert Number to integer
+        result = await AwardsComponentCollection.find(query).toArray();
+      } else {
+        // Otherwise, fetch all AwardsComponent
+        result = await AwardsComponentCollection.find().toArray();
+      }
+
+      // Send the result as a response
+      res.status(200).json(result);
+    });
+    // Update AwardsComponent
+    app.put("/AwardsComponent/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await AwardsComponentCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
       res.send(result);
     });
 
