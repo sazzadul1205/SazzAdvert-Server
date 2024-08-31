@@ -352,6 +352,29 @@ async function run() {
       const result = await BlogsCollection.find().toArray();
       res.send(result);
     });
+    // Update Blogs
+    app.put("/Blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BlogsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new Blogs
+    app.post("/Blogs", async (req, res) => {
+      const request = req.body;
+      const result = await BlogsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete Blogs
+    app.delete("/Blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await BlogsCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
