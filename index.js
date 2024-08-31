@@ -88,10 +88,43 @@ async function run() {
       const result = await PlaquesCollection.find().toArray();
       res.send(result);
     });
+    // Update Plaques
+    app.put("/Plaques/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await PlaquesCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
 
     // WhatWeDo API
     app.get("/WhatWeDo", async (req, res) => {
       const result = await WhatWeDoCollection.find().toArray();
+      res.send(result);
+    });
+    // Update WhatWeDo
+    app.put("/WhatWeDo/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await WhatWeDoCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new WhatWeDo
+    app.post("/WhatWeDo", async (req, res) => {
+      const request = req.body;
+      const result = await WhatWeDoCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete WhatWeDo
+    app.delete("/WhatWeDo/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await WhatWeDoCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -111,6 +144,16 @@ async function run() {
       }
 
       // Send the result as the response
+      res.send(result);
+    });
+    // Update TitleDatas
+    app.put("/TitleDatas/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await TitleDatasCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
       res.send(result);
     });
 
