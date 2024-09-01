@@ -52,6 +52,17 @@ async function run() {
       .db("SazzVert")
       .collection("TestimonialSlides");
     const BlogsCollection = client.db("SazzVert").collection("Blogs");
+    const GetInTouchCollection = client.db("SazzVert").collection("GetInTouch");
+    const FAQCollection = client.db("SazzVert").collection("FAQ");
+    const MarketChaptersCollection = client
+      .db("SazzVert")
+      .collection("MarketChapters");
+    const MarketSidebarCollection = client
+      .db("SazzVert")
+      .collection("MarketSidebar");
+    const BigTestimonialsCollection = client
+      .db("SazzVert")
+      .collection("BigTestimonials");
 
     // APIs
     // Banner API
@@ -373,6 +384,151 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await BlogsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // GetInTouch API
+    app.get("/GetInTouch", async (req, res) => {
+      const result = await GetInTouchCollection.find().toArray();
+      res.send(result);
+    });
+    // Update GetInTouch
+    app.put("/GetInTouch/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await GetInTouchCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new GetInTouch
+    app.post("/GetInTouch", async (req, res) => {
+      const request = req.body;
+      const result = await GetInTouchCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete GetInTouch
+    app.delete("/GetInTouch/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await GetInTouchCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // FAQ API
+    app.get("/FAQ", async (req, res) => {
+      const result = await FAQCollection.find().toArray();
+      res.send(result);
+    });
+    // Update FAQ
+    app.put("/FAQ/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await FAQCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new FAQ
+    app.post("/FAQ", async (req, res) => {
+      const request = req.body;
+      const result = await FAQCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete FAQ
+    app.delete("/FAQ/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await FAQCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // MarketChapters API
+    app.get("/MarketChapters", async (req, res) => {
+      const result = await MarketChaptersCollection.find().toArray();
+      res.send(result);
+    });
+    // Update MarketChapters
+    app.put("/MarketChapters/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await MarketChaptersCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new MarketChapters
+    app.post("/MarketChapters", async (req, res) => {
+      const request = req.body;
+      const result = await MarketChaptersCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete MarketChapters
+    app.delete("/MarketChapters/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await MarketChaptersCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // MarketSidebar API
+    app.get("/MarketSidebar", async (req, res) => {
+      const result = await MarketSidebarCollection.find().toArray();
+      res.send(result);
+    });
+    // Update MarketSidebar
+    app.put("/MarketSidebar/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await MarketSidebarCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new MarketSidebar
+    app.post("/MarketSidebar", async (req, res) => {
+      const request = req.body;
+      const result = await MarketSidebarCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete MarketSidebar
+    app.delete("/MarketSidebar/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await MarketSidebarCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // BigTestimonials API
+    app.get("/BigTestimonials", async (req, res) => {
+      const result = await BigTestimonialsCollection.find().toArray();
+      res.send(result);
+    });
+    // Update BigTestimonials
+    app.put("/BigTestimonials/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BigTestimonialsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new BigTestimonials
+    app.post("/BigTestimonials", async (req, res) => {
+      const request = req.body;
+      const result = await BigTestimonialsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete BigTestimonials
+    app.delete("/BigTestimonials/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await BigTestimonialsCollection.deleteOne(query);
       res.send(result);
     });
 
