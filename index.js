@@ -63,6 +63,9 @@ async function run() {
     const BigTestimonialsCollection = client
       .db("SazzVert")
       .collection("BigTestimonials");
+    const GetInTouchContactCollection = client
+      .db("SazzVert")
+      .collection("GetInTouchContact");
 
     // APIs
     // Banner API
@@ -360,8 +363,32 @@ async function run() {
 
     // Blogs API
     app.get("/Blogs", async (req, res) => {
-      const result = await BlogsCollection.find().toArray();
-      res.send(result);
+      try {
+        const { page, size } = req.query;
+
+        const filter = {};
+
+        const skip = page
+          ? (parseInt(page) - 1) * (size ? parseInt(size) : 10)
+          : 0;
+        const limit = size ? parseInt(size) : 10;
+
+        const result = await BlogsCollection.find(filter)
+          .skip(skip)
+          .limit(limit)
+          .toArray();
+
+        res.send(result);
+      } catch (error) {
+        res
+          .status(500)
+          .send({ error: "An error occurred while fetching blogs." });
+      }
+    });
+    // count of all Blogs
+    app.get("/BlogsCount", async (req, res) => {
+      const count = await BlogsCollection.countDocuments();
+      res.json({ count });
     });
     // Update Blogs
     app.put("/Blogs/:id", async (req, res) => {
@@ -531,6 +558,23 @@ async function run() {
       const result = await BigTestimonialsCollection.deleteOne(query);
       res.send(result);
     });
+
+    // GetInTouchContact API
+    app.get("/GetInTouchContact", async (req, res) => {
+      const result = await GetInTouchContactCollection.find().toArray();
+      res.send(result);
+    });
+    // Update GetInTouchContact
+    app.put("/GetInTouchContact/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await GetInTouchContactCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
