@@ -66,9 +66,8 @@ async function run() {
     const GetInTouchContactCollection = client
       .db("SazzVert")
       .collection("GetInTouchContact");
-    const OurTeamCollection = client
-      .db("SazzVert")
-      .collection("OurTeam");
+    const OurTeamCollection = client.db("SazzVert").collection("OurTeam");
+    const JobDetailsCollection = client.db("SazzVert").collection("JobDetails");
 
     // APIs
     // Banner API
@@ -604,6 +603,22 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await OurTeamCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // JobDetails API
+    app.get("/JobDetails", async (req, res) => {
+      const result = await JobDetailsCollection.find().toArray();
+      res.send(result);
+    });
+    // Update JobDetails
+    app.put("/JobDetails/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await JobDetailsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
       res.send(result);
     });
 
