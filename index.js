@@ -76,6 +76,10 @@ async function run() {
       .db("SazzVert")
       .collection("BlogsDetails");
     const BlogTagsCollection = client.db("SazzVert").collection("BlogTags");
+    const PrivacyPolicyContentCollection = client
+      .db("SazzVert")
+      .collection("PrivacyPolicyContent");
+    const TermsConditionContentCollection = client.db("SazzVert").collection("TermsConditionContent");
 
     // APIs
     // Banner API
@@ -738,6 +742,38 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await BlogTagsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // PrivacyPolicyContent API
+    app.get("/PrivacyPolicyContent", async (req, res) => {
+      const result = await PrivacyPolicyContentCollection.find().toArray();
+      res.send(result);
+    });
+    // Update PrivacyPolicyContent
+    app.put("/PrivacyPolicyContent/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await PrivacyPolicyContentCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+
+    // TermsConditionContent API
+    app.get("/TermsConditionContent", async (req, res) => {
+      const result = await TermsConditionContentCollection.find().toArray();
+      res.send(result);
+    });
+    // Update TermsConditionContent
+    app.put("/TermsConditionContent/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await TermsConditionContentCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
       res.send(result);
     });
 
