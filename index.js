@@ -68,6 +68,9 @@ async function run() {
       .collection("GetInTouchContact");
     const OurTeamCollection = client.db("SazzVert").collection("OurTeam");
     const JobDetailsCollection = client.db("SazzVert").collection("JobDetails");
+    const HiBootStrapCollection = client
+      .db("SazzVert")
+      .collection("HiBootStrap");
 
     // APIs
     // Banner API
@@ -617,6 +620,22 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const updatedCategory = req.body;
       const result = await JobDetailsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+
+    // HiBootStrap API
+    app.get("/HiBootStrap", async (req, res) => {
+      const result = await HiBootStrapCollection.find().toArray();
+      res.send(result);
+    });
+    // Update HiBootStrap
+    app.put("/HiBootStrap/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await HiBootStrapCollection.updateOne(query, {
         $set: updatedCategory,
       });
       res.send(result);
