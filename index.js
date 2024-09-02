@@ -66,6 +66,9 @@ async function run() {
     const GetInTouchContactCollection = client
       .db("SazzVert")
       .collection("GetInTouchContact");
+    const OurTeamCollection = client
+      .db("SazzVert")
+      .collection("OurTeam");
 
     // APIs
     // Banner API
@@ -575,6 +578,34 @@ async function run() {
       res.send(result);
     });
 
+    // BigTestimonials API
+    app.get("/OurTeam", async (req, res) => {
+      const result = await OurTeamCollection.find().toArray();
+      res.send(result);
+    });
+    // Update OurTeam
+    app.put("/OurTeam/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await OurTeamCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new OurTeam
+    app.post("/OurTeam", async (req, res) => {
+      const request = req.body;
+      const result = await OurTeamCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete OurTeam
+    app.delete("/OurTeam/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await OurTeamCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
