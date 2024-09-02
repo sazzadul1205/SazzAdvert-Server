@@ -71,6 +71,11 @@ async function run() {
     const HiBootStrapCollection = client
       .db("SazzVert")
       .collection("HiBootStrap");
+    const CommentsCollection = client.db("SazzVert").collection("Comments");
+    const BlogsDetailsCollection = client
+      .db("SazzVert")
+      .collection("BlogsDetails");
+    const BlogTagsCollection = client.db("SazzVert").collection("BlogTags");
 
     // APIs
     // Banner API
@@ -580,7 +585,7 @@ async function run() {
       res.send(result);
     });
 
-    // BigTestimonials API
+    // OurTeam API
     app.get("/OurTeam", async (req, res) => {
       const result = await OurTeamCollection.find().toArray();
       res.send(result);
@@ -638,6 +643,101 @@ async function run() {
       const result = await HiBootStrapCollection.updateOne(query, {
         $set: updatedCategory,
       });
+      res.send(result);
+    });
+
+    // Comments API
+    app.get("/Comments", async (req, res) => {
+      const result = await CommentsCollection.find().toArray();
+      res.send(result);
+    });
+    // Post new Comments
+    app.post("/Comments", async (req, res) => {
+      const request = req.body;
+      const result = await CommentsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete Comments
+    app.delete("/Comments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await CommentsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // BlogsDetails API
+    app.get("/BlogsDetails", async (req, res) => {
+      const result = await BlogsDetailsCollection.find().toArray();
+      res.send(result);
+    });
+    // Get only unique categories from BlogsDetails
+    app.get("/BlogsCategories", async (req, res) => {
+      // Use aggregation to get distinct categories
+      const categories = await BlogsDetailsCollection.aggregate([
+        {
+          $group: {
+            _id: "$category",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            category: "$_id",
+          },
+        },
+      ]).toArray();
+      res.send(categories);
+    });
+    // Update BlogsDetails
+    app.put("/BlogsDetails/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BlogsDetailsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new BlogsDetails
+    app.post("/BlogsDetails", async (req, res) => {
+      const request = req.body;
+      const result = await BlogsDetailsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete BlogsDetails
+    app.delete("/BlogsDetails/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await BlogsDetailsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // BlogTags API
+    app.get("/BlogTags", async (req, res) => {
+      const result = await BlogTagsCollection.find().toArray();
+      res.send(result);
+    });
+    // Update BlogTags
+    app.put("/BlogTags/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedCategory = req.body;
+      const result = await BlogTagsCollection.updateOne(query, {
+        $set: updatedCategory,
+      });
+      res.send(result);
+    });
+    // Post new BlogTags
+    app.post("/BlogTags", async (req, res) => {
+      const request = req.body;
+      const result = await BlogTagsCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete BlogTags
+    app.delete("/BlogTags/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await BlogTagsCollection.deleteOne(query);
       res.send(result);
     });
 
