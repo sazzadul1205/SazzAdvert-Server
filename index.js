@@ -79,7 +79,9 @@ async function run() {
     const PrivacyPolicyContentCollection = client
       .db("SazzVert")
       .collection("PrivacyPolicyContent");
-    const TermsConditionContentCollection = client.db("SazzVert").collection("TermsConditionContent");
+    const TermsConditionContentCollection = client
+      .db("SazzVert")
+      .collection("TermsConditionContent");
 
     // APIs
     // Banner API
@@ -776,6 +778,7 @@ async function run() {
       });
       res.send(result);
     });
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
