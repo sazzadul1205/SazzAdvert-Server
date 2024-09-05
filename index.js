@@ -651,6 +651,19 @@ async function run() {
       });
       res.send(result);
     });
+    // Post new HiBootStrap
+    app.post("/HiBootStrap", async (req, res) => {
+      const request = req.body;
+      const result = await HiBootStrapCollection.insertOne(request);
+      res.send(result);
+    });
+    // delete HiBootStrap
+    app.delete("/HiBootStrap/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await HiBootStrapCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Comments API
     app.get("/Comments", async (req, res) => {
@@ -712,6 +725,7 @@ async function run() {
     });
     // delete BlogsDetails
     app.delete("/BlogsDetails/:id", async (req, res) => {
+      
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await BlogsDetailsCollection.deleteOne(query);
@@ -778,7 +792,6 @@ async function run() {
       });
       res.send(result);
     });
-
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
