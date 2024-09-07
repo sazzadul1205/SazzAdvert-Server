@@ -5,13 +5,18 @@ const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-// Middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+// Middle Ware
+app.use(cors({
+  origin: [
+      'http://localhost:5173',
+      'https://sazz-advert.web.app',
+      'https://sazz-advert.firebaseapp.com',
+  ],
+  credentials: true
+}))
+
 app.use(express.json());
+
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@sazzvert.8tzlu.mongodb.net/?retryWrites=true&w=majority&appName=SazzVert`;
 
